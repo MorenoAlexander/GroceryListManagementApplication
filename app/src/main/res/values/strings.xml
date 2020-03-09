@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GroceryListManagementApplication</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_grocery_list_view">GroceryListViewActivity</string>
 </resources>

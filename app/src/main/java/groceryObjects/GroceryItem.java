@@ -5,6 +5,7 @@ public abstract class GroceryItem {
     protected String name;
     protected double cost;
     protected double weight; //Measured in Lbs //Idea. Use Spinner to allow user to enter measurement. We'll see...
+    protected int quantity;
 
 
     public String getName() {
@@ -18,7 +19,12 @@ public abstract class GroceryItem {
     public abstract double getCost(); //Why Abstract? Beverages will handle costs differently than other items
     //For example I want beverages to represented in cents/Fl Oz, or meat as $/Lb
 
+    public abstract double getTotalCost();
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 }

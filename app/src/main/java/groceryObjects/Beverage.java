@@ -12,4 +12,10 @@ public abstract class Beverage extends GroceryItem {
     public double getCost(){
         return cost/volume;
     }
+
+    @Override
+    public double getTotalCost(){
+        return (cost/volume) * quantity;
+    }
+
 }
