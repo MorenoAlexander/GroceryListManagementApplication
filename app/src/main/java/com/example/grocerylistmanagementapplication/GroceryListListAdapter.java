@@ -43,6 +43,8 @@ public class GroceryListListAdapter extends RecyclerView.Adapter<GroceryListList
         TextView storeName = (TextView) v.findViewById(R.id.groceryListListItemStoreName);
         TextView numItems = (TextView) v.findViewById(R.id.groceryListListItemNumberOfItems);
         GroceryListViewHolder vh = new GroceryListViewHolder(v,listName,storeName,numItems);
+
+        return vh;
     }
 
 
@@ -50,8 +52,14 @@ public class GroceryListListAdapter extends RecyclerView.Adapter<GroceryListList
     public void onBindViewHolder(GroceryListViewHolder VH,int position){
         VH.viewName.setText(list.getNameAt(position));
         VH.viewStoreName.setText(list.getStoreNameAt(position));
-        VH.viewNumItem.setText(list.getListCountAt(position));
+        VH.viewNumItem.setText(list.getListCountAt(position) + " ITEMS");
 
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return list.length();
     }
 
 

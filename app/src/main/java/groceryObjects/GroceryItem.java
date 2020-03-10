@@ -1,16 +1,24 @@
 package groceryObjects;
 
-public abstract class GroceryItem {
+import java.io.Serializable;
 
+public abstract class GroceryItem implements Serializable {
+
+
+    public enum type {BEVERAGE,MEAT}
     protected String name;
     protected double cost;
     protected double weight; //Measured in Lbs //Idea. Use Spinner to allow user to enter measurement. We'll see...
     protected int quantity;
 
 
+
+
+
     public String getName() {
         return name;
     }
+
 
     public void setName(String name) {
         this.name = name;

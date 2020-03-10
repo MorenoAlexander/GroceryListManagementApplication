@@ -15,7 +15,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
+
 public class MainActivity extends AppCompatActivity {
+    private GroceryListList test = groceryObjectTestHelper.get();
     private RecyclerView groceryListListView;
     private RecyclerView.Adapter groceryListListAdapter;
     private RecyclerView.LayoutManager topLevelLayoutManager;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         topLevelLayoutManager = new LinearLayoutManager(this);
         groceryListListView.setLayoutManager(topLevelLayoutManager);
 
-        groceryListListAdapter = null;
+        groceryListListAdapter = new GroceryListListAdapter(test);
         groceryListListView.setAdapter(groceryListListAdapter);
 
 
