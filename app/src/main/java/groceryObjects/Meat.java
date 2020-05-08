@@ -1,6 +1,8 @@
 package groceryObjects;
 
-public class Meat extends GroceryItem {
+import java.io.Serializable;
+
+public class Meat extends GroceryItem implements Serializable {
 
     public Meat(String Name, double Cost, double Weight, int Quantity){
         name = Name;

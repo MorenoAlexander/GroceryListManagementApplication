@@ -3,6 +3,7 @@ package com.example.grocerylistmanagementapplication;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import groceryObjects.Beverage;
 import groceryObjects.GroceryItem;
 import groceryObjects.Meat;
 
@@ -27,8 +28,13 @@ public class GroceryList implements Serializable {
                 break;
             case BEVERAGE:
                 //TODO implement Beverage
+                list.add(new Beverage(Name,cost,weight,quantity));
                 break;
         }
+    }
+    //BAD
+    public GroceryItem getGroceryItem(int position){
+        return list.get(position);
     }
 
 
@@ -55,4 +61,6 @@ public class GroceryList implements Serializable {
     public void setStoreName(String storeName) {
         StoreName = storeName;
     }
+
+    public int length() { return list.size();}
 }
