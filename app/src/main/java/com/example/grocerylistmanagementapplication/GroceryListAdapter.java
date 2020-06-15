@@ -1,5 +1,6 @@
 package com.example.grocerylistmanagementapplication;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import groceryObjects.GroceryItem;
 
 public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.GroceryViewHolder>{
-    private GroceryList list;
+    public int getContextMenuSelectedItemPosition(){
+        return contextMenuSelectedItemPosition;
 
-    public static class GroceryViewHolder extends RecyclerView.ViewHolder {
+    }
+
+
+
+
+    public void setContextMenuSelectedItemPosition(int contextMenuSelectedItemPosition) {
+        this.contextMenuSelectedItemPosition = contextMenuSelectedItemPosition;
+    }
+    private GroceryList list;
+    private int contextMenuSelectedItemPosition;
+
+    public static class GroceryViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
         /* Define Grocery view objects
 
          */
@@ -32,6 +45,14 @@ public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.
             textViewQuantity = Quantity;
             textViewTotalPrice = TotalPrice;
             textViewPricePerOz = PricePerOz;
+            v.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+            menu.setHeaderTitle("Select Action");
+            menu.add(ContextMenu.NONE, 1, ContextMenu.NONE,"Edit");
+            menu.add(0, 2, 1,"Delete");
         }
     }
 
@@ -55,12 +76,20 @@ public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(GroceryViewHolder VH, int position){
+    public void onBindViewHolder(final GroceryViewHolder VH, int position){
         GroceryItem gi = list.getGroceryItem(position);
         VH.textViewName.setText(gi.getName());
         VH.textViewPrice.setText( "$"+ Double.toString(gi.getCost())+ " each");
         VH.textViewQuantity.setText(Integer.toString(gi.getQuantity()));
         VH.textViewTotalPrice.setText("Total: $" + Double.toString(gi.getTotalCost()));
+
+        VH.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v){
+                setContextMenuSelectedItemPosition(VH.getAdapterPosition());
+                return false;
+            }
+        });
     }
 
     @Override

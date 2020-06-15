@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import groceryObjects.GroceryItem;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -98,6 +100,32 @@ public class GroceryListViewActivity extends AppCompatActivity {
 
 
     @Override
+    public boolean  onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_grocerylist_view_activity,menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        //@TODO implement proper options AND settings page perhaps
+        if(id == R.id.action_settings){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+
+
+
+
+
+    @Override
     public void onBackPressed(){
         Toast.makeText(getApplicationContext(),"Returning to main activity",Toast.LENGTH_LONG).show();
 
@@ -125,6 +153,64 @@ public class GroceryListViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        return false;
+        try{
+            final int position = ((GroceryListAdapter) groceryListView.getAdapter()).getContextMenuSelectedItemPosition();
+
+            switch(item.getItemId()){
+                case 1:
+                    AlertDialog.Builder editDialogue = new AlertDialog.Builder(GroceryListViewActivity.this);
+                    LayoutInflater lf = GroceryListViewActivity.this.getLayoutInflater();
+                    View v = lf.inflate(R.layout.dialog_layout_add_grocery_item,null);
+                    final EditText groceryItemNameView = v.findViewById(R.id.groceryInputName);
+                    final EditText groceryInputPriceView = v.findViewById(R.id.groceryInputPrice);
+                    final EditText groceryInputQuantityView = v.findViewById(R.id.groceryInputQuantity);
+                    groceryItemNameView.setText(currentList.getGroceryItem(position).getName());
+                    groceryInputPriceView.setText(Double.toString(currentList.getGroceryItem(position).getCost()));
+                    groceryInputQuantityView.setText(Integer.toString(currentList.getGroceryItem(position).getQuantity()));
+
+                    editDialogue.setView(v).setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            currentList.getGroceryItem(position).setName(groceryItemNameView.getText().toString());
+                            currentList.getGroceryItem(position).setCost(Double.parseDouble(groceryInputPriceView.getText().toString()));
+                            currentList.getGroceryItem(position).setQuantity(Integer.parseInt(groceryInputQuantityView.getText().toString()));
+                            groceryListAdapter.notifyDataSetChanged();
+
+                        }
+                    })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    editDialogue.create().show();
+                    break;
+                case 2:
+                    AlertDialog.Builder check = new AlertDialog.Builder(GroceryListViewActivity.this).setMessage("Are you sure you want to deleter this item?")
+                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    currentList.removeGrocery(position);
+                                    groceryListAdapter.notifyDataSetChanged();
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    check.create().show();
+
+                    break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: "+ item.getItemId());
+            }
+            return super.onContextItemSelected(item);
+        }
+        catch(Exception e){
+            Log.d("ContextMenu", e.getLocalizedMessage());
+            return super.onContextItemSelected(item);
+        }
     }
 }

@@ -35,4 +35,8 @@ public abstract class GroceryItem implements Serializable {
     public int getQuantity() {
         return quantity;
     }
+
+    public void setQuantity(int Quantity) {
+        this.quantity = Quantity;
+    }
 }

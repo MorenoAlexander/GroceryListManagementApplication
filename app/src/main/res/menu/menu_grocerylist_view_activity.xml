@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.grocerylistmanagementapplication.GroceryListViewActivity">
+    <item
+        android:id="@+id/settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never">
+    </item>
+    <item
+        android:id="@+id/action_list_clearData"
+        android:title="@string/clear_data_history"
+        app:showAsAction="never">
+
+    </item>
+    <item
+        android:id="@+id/action_list_deleteList"
+        android:title="@string/delete_list"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_list_clearList"
+        android:title="@string/clear_list"
+        app:showAsAction="never" />
+</menu>

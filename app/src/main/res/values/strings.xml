@@ -2,7 +2,7 @@
     <string name="app_name">GroceryListManagementApplication</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_grocery_list_view">GroceryListViewActivity</string>
-    <string name="add_grocery_item_prompt">Add a grocery your list!</string>
+    <string name="add_grocery_item_prompt">Add a grocery item to your list!</string>
     <string name="groceryItem">Grocery Item</string>
     <string name="groceryItemCost">Cost per item</string>
     <string name="add">Add</string>
@@ -14,4 +14,12 @@
     <string name="priceperHint">pricePer</string>
     <string name="totalHint">Total</string>
     <string name="delete">delete</string>
+    <string name="listcost">ListCost</string>
+    <string name="numitems">NumItems</string>
+    <string name="symbol_dollar_sign">$</string>
+    <string name="list_list_listTotalCost">$ %.2f</string>
+    <string name="clear_list">Clear List</string>
+    <string name="delete_list">Delete List</string>
+    <string name="clear_data_history">Clear Data History</string>
+    <string name="clear_all_data_history">Clear all Data History</string>
 </resources>

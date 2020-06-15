@@ -63,4 +63,17 @@ public class GroceryList implements Serializable {
     }
 
     public int length() { return list.size();}
+
+
+    public void removeGrocery(int position) { list.remove(position);}
+
+
+    public double getTotalCost(){
+        double costSum = 0.0;
+        for(GroceryItem item : list){
+            costSum += item.getTotalCost();
+        }
+
+        return costSum;
+    }
 }

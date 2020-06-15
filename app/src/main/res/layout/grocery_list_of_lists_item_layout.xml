@@ -14,7 +14,7 @@
             android:id="@+id/groceryListListItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:hint="@string/list_name"
             android:textSize="22sp"
             android:visibility="visible" />
 
@@ -22,19 +22,32 @@
             android:id="@+id/groceryListListItemStoreName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:hint="@string/grocery_store"
             android:textSize="17sp"
             android:visibility="visible" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/groceryListListItemNumberOfItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingStart="5sp"
-        android:paddingEnd="5sp"
-        android:text="TextView"
-        android:visibility="visible" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/groceryListListItemNumberOfItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/numitems"
+            android:paddingStart="5sp"
+            android:paddingEnd="5sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/TotalCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/listcost" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
                                     //String StoreName = ( (EditText) addGroceryListDialog.findViewById(R.id.groceryListStore)).getText().toString();
                                     groceryListList.setListNameAt(position,listNameView.getText().toString());
                                     groceryListList.setStoreNameAt(position,storeNameView.getText().toString());
+
                                     groceryListListAdapter.notifyDataSetChanged();
 
                                 }
