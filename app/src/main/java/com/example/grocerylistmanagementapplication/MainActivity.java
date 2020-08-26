@@ -31,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private static MainActivity currentInstance = null;
 
     public static final int START_GROCERYLIST_ACTIVITY_OPEN_NEW_LIST = 777;
-    private GroceryListList test = groceryObjectTestHelper.get();
-    private GroceryListList groceryListList = test;
+    private static GroceryListList test = groceryObjectTestHelper.get();
+    private static GroceryListList groceryListList = test;
+    private static boolean  listChanged;
     private RecyclerView groceryListListView;
 
 
@@ -53,7 +54,12 @@ public class MainActivity extends AppCompatActivity {
         return currentInstance;
     }
 
+    public static void updateGroceryListList( int position, GroceryList changedList)
+    {
 
+        groceryListList.replaceList(position, changedList);
+        App.writeToInternalFile(groceryListList);
+    }
 
 
 
@@ -69,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //TODO implement add new list button
+        //TODO refactor dialog to prevent user from creating lists with empty fields
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                 String StoreName = ( (EditText) addGroceryListDialog.findViewById(R.id.groceryListStore)).getText().toString();
 
                                 groceryListList.AddList(listName,StoreName);
+                                App.writeToInternalFile(groceryListList);
                                 groceryListListAdapter.notifyDataSetChanged();
 
                             }

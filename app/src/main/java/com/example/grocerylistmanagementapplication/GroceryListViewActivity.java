@@ -32,6 +32,7 @@ public class GroceryListViewActivity extends AppCompatActivity {
 
     private GroceryList currentList;
     private int currentListPosition;
+    private boolean listChanged;
     private AlertDialog groceryItemDialog;
 
     private RecyclerView groceryListView;
@@ -45,7 +46,10 @@ public class GroceryListViewActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         currentList =  (GroceryList) getIntent().getExtras().getSerializable("list");
-        currentListPosition = getIntent().getExtras().getInt("position");
+        currentListPosition = getIntent().getExtras().getInt("contextMenuSelectedItemPosition");
+        listChanged = false;
+        //TODO use boolean to ensure that data saving is not more than once per change/activity
+
 
 
 
@@ -70,30 +74,58 @@ public class GroceryListViewActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(GroceryListViewActivity.this);
                 LayoutInflater lf = GroceryListViewActivity.this.getLayoutInflater();
-                builder.setView(lf.inflate(R.layout.dialog_layout_add_grocery_item,null))
-                        .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-
-                                String Text =  ((EditText) groceryItemDialog.findViewById(R.id.groceryInputName)).getText().toString();
-                                double price = Double.parseDouble(((EditText) groceryItemDialog.findViewById(R.id.groceryInputPrice)).getText().toString() );
-                                int quantity = Integer.parseInt(((EditText) groceryItemDialog.findViewById(R.id.groceryInputQuantity)).getText().toString() );
-
-                                currentList.AddItem(GroceryItem.type.MEAT,Text,price,1.0,quantity);
-                                groceryListAdapter.notifyDataSetChanged();
-
-                                MainActivity.getInstance().notifyGroceryListListDataSetChanged();
-
-                            }
-                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                builder.setView(lf.inflate(R.layout.dialog_layout_add_grocery_item,null)).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
-                });
+                }).setCancelable(false).setPositiveButton(R.string.add,null);
                 groceryItemDialog = builder.create();
                 groceryItemDialog.show();
+
+                groceryItemDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText TextInput = (EditText) groceryItemDialog.findViewById(R.id.groceryInputName);
+                        EditText priceInput = (EditText) groceryItemDialog.findViewById(R.id.groceryInputPrice);
+                        EditText quantityInput = (EditText) groceryItemDialog.findViewById(R.id.groceryInputQuantity);
+
+                        //Get data from editTexts, ensuring that the EditText Fields are not empty. If they are, setError and Keep dialogue open.
+                        try {
+                            if( TextInput.getText().toString().trim().equals(""))// || priceInput.getText().equals("")  || quantityInput.getText().equals(""))
+                            {
+                                TextInput.setError("This is a required field!");
+                                return;
+                                //return;
+                            }
+                            else if( priceInput.getText().toString().trim().equals(""))// || priceInput.getText().equals("")  || quantityInput.getText().equals(""))
+                            {
+                                SetEditTextError_required(priceInput);
+                                return;
+                                //return;
+                            }
+                            else if(quantityInput.getText().toString().trim().equals("")){
+                                SetEditTextError_required(quantityInput);
+                                return;
+                                //return;
+                            }
+                            String Text = TextInput.getText().toString();
+                            double price = Double.parseDouble(((EditText) groceryItemDialog.findViewById(R.id.groceryInputPrice)).getText().toString());
+                            int quantity = Integer.parseInt(((EditText) groceryItemDialog.findViewById(R.id.groceryInputQuantity)).getText().toString());
+
+                            currentList.AddItem(GroceryItem.type.MEAT, Text, price, 1.0, quantity);
+                            groceryListAdapter.notifyDataSetChanged();
+                            MainActivity.updateGroceryListList(currentListPosition,currentList);
+                            MainActivity.getInstance().notifyGroceryListListDataSetChanged();
+                            groceryItemDialog.dismiss();
+                        }
+                        catch(Exception e) {
+
+                            return;
+                        }
+
+                    }
+                });
             }
         });
     }
@@ -118,8 +150,32 @@ public class GroceryListViewActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public void onDestroy(){
+        Intent result = new Intent();
+        result.putExtra("position", currentListPosition);
+        result.putExtra("changedList", currentList);
+        setResult(Activity.RESULT_OK,result);
+        MainActivity.updateGroceryListList(currentListPosition, currentList);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStop(){
+        Intent result = new Intent();
+        result.putExtra("position", currentListPosition);
+        result.putExtra("changedList", currentList);
+        setResult(Activity.RESULT_OK,result);
+
+        MainActivity.updateGroceryListList(currentListPosition, currentList);
+        super.onStop();
+    }
 
 
+    public void SetEditTextError_required(EditText control)
+    {
+        control.setError("This is a required field!");
+    }
 
 
 

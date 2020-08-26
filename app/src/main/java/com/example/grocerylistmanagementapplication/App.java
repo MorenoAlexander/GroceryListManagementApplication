@@ -30,7 +30,7 @@ public class App extends Application {
     private static FileOutputStream userFos;
 
 
-
+    //TODO remove in production
     public static void complain(){
         Log.d("complaint","goddamnit!");
     }
