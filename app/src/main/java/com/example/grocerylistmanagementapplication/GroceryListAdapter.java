@@ -21,7 +21,7 @@ public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.
     public void setContextMenuSelectedItemPosition(int contextMenuSelectedItemPosition) {
         this.contextMenuSelectedItemPosition = contextMenuSelectedItemPosition;
     }
-    private GroceryList list;
+    private final GroceryList list;
     private int contextMenuSelectedItemPosition;
 
     public static class GroceryViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
@@ -79,9 +79,9 @@ public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.
     public void onBindViewHolder(final GroceryViewHolder VH, int position){
         GroceryItem gi = list.getGroceryItem(position);
         VH.textViewName.setText(gi.getName());
-        VH.textViewPrice.setText( "$"+ Double.toString(gi.getCost())+ " each");
+        VH.textViewPrice.setText(String.format("$%s each", gi.getCost()));
         VH.textViewQuantity.setText(Integer.toString(gi.getQuantity()));
-        VH.textViewTotalPrice.setText("Total: $" + Double.toString(gi.getTotalCost()));
+        VH.textViewTotalPrice.setText("Total: $" + gi.getTotalCost());
 
         VH.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

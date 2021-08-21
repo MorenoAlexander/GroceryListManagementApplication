@@ -23,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import java.util.Objects;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -189,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
          //position = 0;
         try{
-           final int position = ((GroceryListListAdapter)groceryListListView.getAdapter()).getContextMenuSelectedItemPosition();
+           final int position = ((GroceryListListAdapter) Objects.requireNonNull(groceryListListView.getAdapter())).getContextMenuSelectedItemPosition();
 
 
             switch (item.getItemId()){
@@ -207,11 +209,9 @@ public class MainActivity extends AppCompatActivity {
                             .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //String StoreName = ( (EditText) addGroceryListDialog.findViewById(R.id.groceryListStore)).getText().toString();
                                     groceryListList.setListNameAt(position,listNameView.getText().toString());
                                     groceryListList.setStoreNameAt(position,storeNameView.getText().toString());
-
-                                    groceryListListAdapter.notifyDataSetChanged();
+                                    groceryListListAdapter.notifyItemChanged(position);
 
                                 }
                             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                     addGroceryListDialog.show();
                     break;
                 case 2:
-                    AlertDialog.Builder check = new AlertDialog.Builder(MainActivity.this).setMessage("Are you sure you want to delete this list?").setPositiveButton(R.string.delete,new DialogInterface.OnClickListener(){
+                    new AlertDialog.Builder(MainActivity.this).setMessage("Are you sure you want to delete this list?").setPositiveButton(R.string.delete,new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog,int which){
                             groceryListList.removeList(position);
@@ -236,8 +236,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                         }
-                    });
-                    check.create().show();
+                    }).create().show();
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + item.getItemId());

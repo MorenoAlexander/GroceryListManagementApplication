@@ -73,7 +73,7 @@ public class GroceryListListAdapter extends RecyclerView.Adapter<GroceryListList
     @Override
     public GroceryListListAdapter.GroceryListViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
 
-        LayoutInflater lI = LayoutInflater.from(parent.getContext());
+        LayoutInflater.from(parent.getContext());
         View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.grocery_list_of_lists_item_layout,parent,false);
         v.setOnClickListener(itemOnClickListener);
         TextView listName  = (TextView) v.findViewById(R.id.groceryListListItemName);
@@ -121,11 +121,5 @@ public class GroceryListListAdapter extends RecyclerView.Adapter<GroceryListList
             editViewList.putExtra("contextMenuSelectedItemPosition",groceryListPosition);
             MainActivity.startGroceryListActivity(editViewList);
         }
-    }
-
-
-    //@TODO REMOVE IF NEVER CALLED IN FINAL FORM
-    public void setItemOnLongClickListener(View.OnLongClickListener itemOnLongClickListener) {
-        this.itemOnLongClickListener = itemOnLongClickListener;
     }
 }
